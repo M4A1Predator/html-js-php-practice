@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test 3</title>
+    <script src="jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div id="test">
+        <div>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+    <script>
+        var d = $('<div />'), p = $('<p />');
+        $('#test').find('div')
+        .eq(0)
+        .append(
+            d.addClass('test').css({'width':100, 'height': 100, 'background': '#ccc'})
+            .append(p.text('test'))
+        )
+        .next()
+        .append(
+            d.clone().removeClass('test').addClass('test2')
+            .css({'width':200, 'height': 200, 'background': '#000'})
+            .append(p.clone().text('test2').css('color','#FFF'))
+        );
+        // note #test is the attribute in <div> and this element contents with 2 tag '<div>' 
+    </script>
+</body>
+</html>

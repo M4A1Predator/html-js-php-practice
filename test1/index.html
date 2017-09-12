@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery/dist/jquery.min.js"></script>
+    <title>Test1</title>
+    <style>
+        body{
+            margin: 5px;
+        }
+        input{
+            height: 30px;
+            font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ATM</h1>
+    <div>
+        <div>
+            Withdraw Amount : <input id="withdrawAmount" type="text" />
+        </div>
+        <div>
+            <button id="withdraw-btn">Deposite</button>
+        </div>
+        <div>
+            <p>Bank notes</p>
+            <div id="recieve" style="height: 90px">
+
+            </div>
+        </div>
+        <hr />
+        <div>
+            <p>Bank notes in ATM</p>
+            <div id="atm">
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        // Elements
+        var withdrawBtn = $("#withdraw-btn");
+        var withdrawAmount = $('#withdrawAmount');
+        var recieve = $("#recieve");
+        var atm = $("#atm");
+
+        // Banknotes in atm
+        var bankNotes = {
+            // "1000" : 99,
+            // "500" : 50,
+            // "100" : 300
+            "1000" : 5,
+            "500" : 4,
+            "100" : 50,
+        }
+
+        function showAtmBanknotes(){
+            atm.empty()
+            atm.append($('<div />').append('<p />').text("1000 : " + bankNotes["1000"]))
+            atm.append($('<div />').append('<p />').text("500 : " + bankNotes["500"]))
+            atm.append($('<div />').append('<p />').text("100 : " + bankNotes["100"]))
+        }
+
+        function calculate(amount){
+            // Check wrong input
+            if(amount % 100 !== 0){
+                alert("Unfortunately, we have only 1000, 500, 100. Sorry");
+                return;
+            }
+
+            // Calculate bank notes
+            var b1000 = parseInt(amount / 1000)
+            var b500 = parseInt((amount / 500) % 2)
+            var b100 = parseInt((amount / 100) % 5)
+
+            console.log("b1000 " + b1000)
+            console.log("b500 " + b500)
+            console.log("b100 " + b100)
+            console.log("===============")
+
+            if(b1000 > bankNotes["1000"]){
+                var dif1000 = b1000 - bankNotes["1000"]
+                b1000 = bankNotes["1000"]
+                b500 += dif1000 * 2
+            }
+
+            if(b500 > bankNotes["500"]){
+                var dif500 = b500 - bankNotes["500"]
+                b500 = bankNotes["500"]
+                b100 += dif500 * 5
+            }
+
+            if(b100 > bankNotes["100"]){
+                alert("Unfortunately, we do not have enough banknotes");
+                return;
+            }
+
+            var resultBanknotes = {
+                "1000" : b1000,
+                "500" : b500,
+                "100" : b100,
+            }
+
+            bankNotes["1000"] = bankNotes["1000"] - b1000
+            bankNotes["500"] = bankNotes["500"] - b500
+            bankNotes["100"] = bankNotes["100"] - b100
+            
+            if(b1000 > 0){
+                recieve.append($('<div />').append('<p />').text("1000 : " + b1000))
+            }
+            if(b500 > 0){
+                recieve.append($('<div />').append('<p />').text("500 : " + b500))
+            }
+            if(b100 > 0){
+                recieve.append($('<div />').append('<p />').text("100 : " + b100))
+            }
+            showAtmBanknotes()
+        }
+
+        function handleWithdraw(){
+            recieve.empty()
+            var amount = withdrawAmount.val();
+            var re = /^([1-9]\d*|0)(\d+)?$/
+            if(!re.test(amount)){
+                alert("please input number without any special character")
+                return;
+            }
+
+            calculate(parseInt(amount))
+        }
+
+        // Event handlers
+        withdrawBtn.click(function(e){
+            handleWithdraw()
+        })
+
+        withdrawAmount.keypress(function (e) {
+            var key = e.which;
+            if(key == 13)  // the enter key code
+            {
+                handleWithdraw()
+                return false;
+            }
+        }); 
+
+        showAtmBanknotes();
+    </script>
+</body>
+</html>
