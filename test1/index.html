@@ -27,9 +27,10 @@
         <div>
             <button id="withdraw-btn">Deposite</button>
         </div>
-        <div>
+        <div style="height: 130px">
             <p>Banknotes</p>
-            <div id="recieve" style="height: 90px">
+            <p id="withdrawAmountLabel"></p>
+            <div id="recieve">
 
             </div>
         </div>
@@ -123,11 +124,13 @@
             if(b100 > 0){
                 recieve.append($('<div />').append('<p />').text("100 : " + b100))
             }
+            $('#withdrawAmountLabel').text(amount)
             showAtmBanknotes()
             withdrawAmount.val('')
         }
 
         function handleWithdraw(){
+            $('#withdrawAmountLabel').text('')
             recieve.empty()
             var amount = withdrawAmount.val();
             var re = /^([1-9]\d*|0)(\d+)?$/
