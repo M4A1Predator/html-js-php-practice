@@ -28,14 +28,14 @@
             <button id="withdraw-btn">Deposite</button>
         </div>
         <div>
-            <p>Bank notes</p>
+            <p>Banknotes</p>
             <div id="recieve" style="height: 90px">
 
             </div>
         </div>
         <hr />
         <div>
-            <p>Bank notes in ATM</p>
+            <p>Banknotes in ATM</p>
             <div id="atm">
 
             </div>
@@ -73,7 +73,11 @@
                 return;
             }
 
-            // Calculate bank notes
+            if(amount <= 0){
+                return;
+            }
+
+            // Calculate banknotes
             var b1000 = parseInt(amount / 1000)
             var b500 = parseInt((amount / 500) % 2)
             var b100 = parseInt((amount / 100) % 5)
@@ -120,6 +124,7 @@
                 recieve.append($('<div />').append('<p />').text("100 : " + b100))
             }
             showAtmBanknotes()
+            withdrawAmount.val('')
         }
 
         function handleWithdraw(){
